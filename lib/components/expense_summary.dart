@@ -35,20 +35,36 @@ class ExpenseSummary extends StatelessWidget {
     );
 
     return Consumer<ExpenseData>(
-      builder:
-          (context, value, child) => SizedBox(
-            height: 200,
-            child: BarGraph(
-              maxY: 100, // TODO : Calculate max Y dynamically
-              sunAmount: value.calculateDailyExpenseSummary()[sunday] ?? 0,
-              monAmount: value.calculateDailyExpenseSummary()[monday] ?? 0,
-              tueAmount: value.calculateDailyExpenseSummary()[tuesday] ?? 0,
-              wedAmount: value.calculateDailyExpenseSummary()[wednesday] ?? 0,
-              thuAmount: value.calculateDailyExpenseSummary()[thursday] ?? 0,
-              friAmount: value.calculateDailyExpenseSummary()[friday] ?? 0,
-              satAmount: value.calculateDailyExpenseSummary()[saturday] ?? 0,
-            ),
+      builder: (context, value, child) {
+        final dailySummary = value.calculateDailyExpenseSummary();
+        final weekAmounts = [
+          dailySummary[sunday] ?? 0,
+          dailySummary[monday] ?? 0,
+          dailySummary[tuesday] ?? 0,
+          dailySummary[wednesday] ?? 0,
+          dailySummary[thursday] ?? 0,
+          dailySummary[friday] ?? 0,
+          dailySummary[saturday] ?? 0,
+        ];
+
+        // Find the max expense for the week, set a minimum for visibility
+        final maxY = weekAmounts.reduce((a, b) => a > b ? a : b);
+        final displayMaxY = maxY < 10 ? 10 : maxY;
+
+        return SizedBox(
+          height: 250,
+          child: BarGraph(
+            maxY: displayMaxY.toDouble(),
+            sunAmount: weekAmounts[0],
+            monAmount: weekAmounts[1],
+            tueAmount: weekAmounts[2],
+            wedAmount: weekAmounts[3],
+            thuAmount: weekAmounts[4],
+            friAmount: weekAmounts[5],
+            satAmount: weekAmounts[6],
           ),
+        );
+      },
     );
   }
 }
