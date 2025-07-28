@@ -1,8 +1,23 @@
 # Minimalist Expense Tracker
 
-Description
+This is a simple, minimalist cross-platform expense-tracker mobile app made with Flutter and programmed in Dart.
 
-<img src="./images/HabitAppMockup.png" alt="Cover Image" width="600px">
+## 💵 About the app
+
+It includes complete create, read, update, and delete functionality for all logged expenses, and cleanly displays the expenses data in an easy-to-read bar weekly overview at the top with a bar graph. The app also saves user data locally on the device using Hive, a lightweight key-value database for Flutter.
+
+![Flutter](https://img.shields.io/badge/-Flutter-05122A?style=flat-square&logo=Flutter&color=2a2e34)
+![Dart](https://img.shields.io/badge/-Dart-05122A?style=flat-square&logo=Dart&color=2a2e34)
+
+## 🚀 Features
+
+- Add and Edit Expenses
+- View weekly summary in bar-graph
+- Local data storage
+
+## 📱Screenshot
+
+<img src="./images/ExpenseTrackerMockup.png" alt="Cover Image" width="400px">
 
 ## Flutter Guide
 
