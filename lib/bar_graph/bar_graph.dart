@@ -90,10 +90,7 @@ class BarGraph extends StatelessWidget {
                         toY: data.y,
                         color: Colors.grey[800],
                         width: 25,
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          topRight: Radius.circular(5),
-                        ),
+                        borderRadius: BorderRadius.circular(5),
                         backDrawRodData: BackgroundBarChartRodData(
                           show: true,
                           toY: maxY ?? 0,

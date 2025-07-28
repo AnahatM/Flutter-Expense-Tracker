@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
             ),
             body: ListView(
               children: [
-                const SizedBox(height: 50),
+                const SizedBox(height: 20),
 
                 // Weekly summary bar graph section
                 ExpenseSummary(startOfWeek: value.getStartOfWeek()),

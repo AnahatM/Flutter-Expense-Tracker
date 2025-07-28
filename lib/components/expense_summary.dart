@@ -9,6 +9,11 @@ class ExpenseSummary extends StatelessWidget {
 
   const ExpenseSummary({super.key, required this.startOfWeek});
 
+  // Calculate week total
+  String calculateWeekTotal(List<double> weekAmounts) {
+    return weekAmounts.reduce((a, b) => a + b).toStringAsFixed(2);
+  }
+
   @override
   Widget build(BuildContext context) {
     // Get yyyymmdd format for each day of the week
@@ -49,20 +54,43 @@ class ExpenseSummary extends StatelessWidget {
 
         // Find the max expense for the week, set a minimum for visibility
         final maxY = weekAmounts.reduce((a, b) => a > b ? a : b);
-        final displayMaxY = maxY < 10 ? 10 : maxY;
+        final displayMaxY = maxY < 100 ? 100 : maxY;
 
-        return SizedBox(
-          height: 250,
-          child: BarGraph(
-            maxY: displayMaxY.toDouble(),
-            sunAmount: weekAmounts[0],
-            monAmount: weekAmounts[1],
-            tueAmount: weekAmounts[2],
-            wedAmount: weekAmounts[3],
-            thuAmount: weekAmounts[4],
-            friAmount: weekAmounts[5],
-            satAmount: weekAmounts[6],
-          ),
+        return Column(
+          children: [
+            // Week total
+            Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Row(
+                children: [
+                  Text("Week total: ", style: TextStyle(fontSize: 18)),
+                  Text(
+                    "\$${calculateWeekTotal(weekAmounts)}",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            // Bar graph to show weekly expenses
+            SizedBox(
+              height: 250,
+              child: BarGraph(
+                maxY: displayMaxY.toDouble() * 1.1,
+                sunAmount: weekAmounts[0],
+                monAmount: weekAmounts[1],
+                tueAmount: weekAmounts[2],
+                wedAmount: weekAmounts[3],
+                thuAmount: weekAmounts[4],
+                friAmount: weekAmounts[5],
+                satAmount: weekAmounts[6],
+              ),
+            ),
+          ],
         );
       },
     );
