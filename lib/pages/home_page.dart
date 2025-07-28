@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:minimalist_expense_tracker/components/date_picker_button.dart';
 import 'package:minimalist_expense_tracker/components/expense_summary.dart';
 import 'package:minimalist_expense_tracker/components/expense_tile.dart';
 import 'package:minimalist_expense_tracker/data/expense_data.dart';
@@ -54,7 +55,6 @@ class _HomePageState extends State<HomePage> {
                         keyboardType: TextInputType.number,
                       ),
                     ),
-
                     // Cents
                     Expanded(
                       child: TextField(
@@ -65,31 +65,15 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                // Date picker
                 SizedBox(height: 16),
-                Row(
-                  children: [
-                    Text("Date "),
-                    TextButton(
-                      onPressed: () async {
-                        DateTime? picked = await showDatePicker(
-                          context: context,
-                          initialDate: selectedDate,
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2100),
-                        );
-                        if (picked != null) {
-                          setState(() {
-                            selectedDate = picked;
-                          });
-                        }
-                      },
-                      child: Text(
-                        "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ],
+                // Date picker
+                DatePickerButton(
+                  selectedDate: selectedDate,
+                  onDateChanged: (picked) {
+                    setState(() {
+                      selectedDate = picked;
+                    });
+                  },
                 ),
               ],
             ),
