@@ -15,8 +15,17 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // Text controllers for input fields
   final newExpenseNameController = TextEditingController();
-  final newExpenseAmountController = TextEditingController();
+  final newExpenseDollarsController = TextEditingController();
+  final newExpenseCentsController = TextEditingController();
   DateTime selectedDate = DateTime.now();
+
+  // Function to clear input fields
+  void clearInputFields() {
+    newExpenseNameController.clear();
+    newExpenseDollarsController.clear();
+    newExpenseCentsController.clear();
+    selectedDate = DateTime.now();
+  }
 
   // Function to add a new expense
   void addNewExpense() {
@@ -32,13 +41,29 @@ class _HomePageState extends State<HomePage> {
                 // Expense name input
                 TextField(
                   controller: newExpenseNameController,
-                  decoration: InputDecoration(labelText: 'Name'),
+                  decoration: const InputDecoration(hintText: 'Expense Name'),
                 ),
                 // Expense amount input
-                TextField(
-                  controller: newExpenseAmountController,
-                  decoration: InputDecoration(labelText: 'Amount'),
-                  keyboardType: TextInputType.number,
+                Row(
+                  children: [
+                    // Dollars
+                    Expanded(
+                      child: TextField(
+                        controller: newExpenseDollarsController,
+                        decoration: const InputDecoration(hintText: 'Dollars'),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+
+                    // Cents
+                    Expanded(
+                      child: TextField(
+                        controller: newExpenseCentsController,
+                        decoration: const InputDecoration(hintText: 'Cents'),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ],
                 ),
                 // Date picker
                 SizedBox(height: 16),
@@ -61,6 +86,7 @@ class _HomePageState extends State<HomePage> {
                       },
                       child: Text(
                         "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}",
+                        style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ],
@@ -80,17 +106,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void clearInputFields() {
-    newExpenseNameController.clear();
-    newExpenseAmountController.clear();
-    selectedDate = DateTime.now();
-  }
-
   // Function to save the new expense
   void saveNewExpense() {
     // Read values before clearing
     String name = newExpenseNameController.text;
-    String amount = newExpenseAmountController.text;
+    String amount =
+        '${newExpenseDollarsController.text}.${newExpenseCentsController.text}';
     DateTime date = selectedDate;
 
     clearInputFields();
@@ -124,12 +145,21 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.grey[300],
             floatingActionButton: FloatingActionButton(
               onPressed: addNewExpense,
+              backgroundColor: Colors.black,
+              foregroundColor: Colors.white,
+              tooltip: 'Add Expense',
+              shape: CircleBorder(),
               child: Icon(Icons.add),
             ),
             body: ListView(
               children: [
+                const SizedBox(height: 50),
+
                 // Weekly summary bar graph section
                 ExpenseSummary(startOfWeek: value.getStartOfWeek()),
+
+                const SizedBox(height: 20),
+
                 // Expenses list section
                 ListView.builder(
                   shrinkWrap: true,

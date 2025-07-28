@@ -76,6 +76,7 @@ class BarGraph extends StatelessWidget {
             sideTitles: SideTitles(
               showTitles: true,
               getTitlesWidget: (value, meta) => getBottomTitles(value, meta),
+              reservedSize: 40,
             ),
           ),
         ),
