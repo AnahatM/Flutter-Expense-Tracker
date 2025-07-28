@@ -14,8 +14,7 @@ class ExpenseSummary extends StatelessWidget {
     return weekAmounts.reduce((a, b) => a + b).toStringAsFixed(2);
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Map<String, dynamic> calculateWeekData(ExpenseData value) {
     // Get yyyymmdd format for each day of the week
     String sunday = convertDateTimeToString(
       startOfWeek.add(const Duration(days: 0)),
@@ -39,22 +38,29 @@ class ExpenseSummary extends StatelessWidget {
       startOfWeek.add(const Duration(days: 6)),
     );
 
+    final dailySummary = value.calculateDailyExpenseSummary();
+    final weekAmounts = [
+      dailySummary[sunday] ?? 0,
+      dailySummary[monday] ?? 0,
+      dailySummary[tuesday] ?? 0,
+      dailySummary[wednesday] ?? 0,
+      dailySummary[thursday] ?? 0,
+      dailySummary[friday] ?? 0,
+      dailySummary[saturday] ?? 0,
+    ];
+
+    final maxY = weekAmounts.reduce((a, b) => a > b ? a : b);
+    final displayMaxY = maxY < 100 ? 100 : maxY;
+    return {'weekAmounts': weekAmounts, 'displayMaxY': displayMaxY};
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Consumer<ExpenseData>(
       builder: (context, value, child) {
-        final dailySummary = value.calculateDailyExpenseSummary();
-        final weekAmounts = [
-          dailySummary[sunday] ?? 0,
-          dailySummary[monday] ?? 0,
-          dailySummary[tuesday] ?? 0,
-          dailySummary[wednesday] ?? 0,
-          dailySummary[thursday] ?? 0,
-          dailySummary[friday] ?? 0,
-          dailySummary[saturday] ?? 0,
-        ];
-
-        // Find the max expense for the week, set a minimum for visibility
-        final maxY = weekAmounts.reduce((a, b) => a > b ? a : b);
-        final displayMaxY = maxY < 100 ? 100 : maxY;
+        final weekData = calculateWeekData(value);
+        final weekAmounts = weekData['weekAmounts'] as List<double>;
+        final displayMaxY = weekData['displayMaxY'] as double;
 
         return Column(
           children: [
