@@ -97,7 +97,105 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // Function to handle editing an expense
+  void editExpense(ExpenseItem expense) {
+    newExpenseNameController.text = expense.name;
+    // Split amount into dollars and cents safely
+    List<String> amountParts = expense.amount.split('.');
+    newExpenseDollarsController.text = amountParts[0];
+    newExpenseCentsController.text =
+        amountParts.length > 1 ? amountParts[1] : '00';
+    selectedDate = expense.dateTime;
+
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: Text('Edit Expense'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Expense name input
+                TextField(
+                  controller: newExpenseNameController,
+                  decoration: const InputDecoration(hintText: 'Expense Name'),
+                ),
+                // Expense amount input
+                Row(
+                  children: [
+                    // Dollars
+                    Expanded(
+                      child: TextField(
+                        controller: newExpenseDollarsController,
+                        decoration: const InputDecoration(hintText: 'Dollars'),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                    // Cents
+                    Expanded(
+                      child: TextField(
+                        controller: newExpenseCentsController,
+                        decoration: const InputDecoration(hintText: 'Cents'),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+                // Date picker
+                DatePickerButton(
+                  selectedDate: selectedDate,
+                  onDateChanged: (picked) {
+                    setState(() {
+                      selectedDate = picked;
+                    });
+                  },
+                ),
+              ],
+            ),
+            actions: [
+              // Confirm button now calls saveEditedExpense
+              MaterialButton(
+                onPressed: () => saveEditedExpense(expense),
+                child: Text('Confirm'),
+              ),
+              // Cancel button
+              MaterialButton(
+                onPressed: cancelNewExpense,
+                child: Text('Cancel'),
+              ),
+            ],
+          ),
+    );
+  }
+
   // Function to save the new expense
+  // Function to save the edited expense
+  void saveEditedExpense(ExpenseItem oldExpense) {
+    // Read values before clearing
+    String name = newExpenseNameController.text;
+    String amount =
+        '${newExpenseDollarsController.text}.${newExpenseCentsController.text}';
+    DateTime date = selectedDate;
+
+    clearInputFields();
+
+    // Create a new ExpenseItem
+    ExpenseItem newExpense = ExpenseItem(
+      name: name,
+      amount: amount,
+      dateTime: date,
+    );
+    // Edit the expense in the ExpenseData provider
+    Provider.of<ExpenseData>(
+      context,
+      listen: false,
+    ).editExpense(oldExpense, newExpense);
+
+    // Close the dialog
+    Navigator.pop(context);
+  }
+
   void saveNewExpense() {
     // Read values before clearing
     String name = newExpenseNameController.text;
@@ -126,6 +224,11 @@ class _HomePageState extends State<HomePage> {
 
     // Close the dialog
     Navigator.pop(context);
+  }
+
+  // Function to delete an expense
+  void deleteExpense(ExpenseItem expense) {
+    Provider.of<ExpenseData>(context, listen: false).deleteExpense(expense);
   }
 
   @override
@@ -161,6 +264,12 @@ class _HomePageState extends State<HomePage> {
                         name: value.getExpenseList()[index].name,
                         amount: value.getExpenseList()[index].amount,
                         date: value.getExpenseList()[index].dateTime,
+                        deleteTapped:
+                            (context) =>
+                                deleteExpense(value.getExpenseList()[index]),
+                        editTapped:
+                            (context) =>
+                                editExpense(value.getExpenseList()[index]),
                       ),
                 ),
               ],

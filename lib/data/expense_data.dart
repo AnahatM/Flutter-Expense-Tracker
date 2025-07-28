@@ -33,6 +33,16 @@ class ExpenseData extends ChangeNotifier {
     db.saveData(overallExpenseList);
   }
 
+  // Edit an expense
+  void editExpense(ExpenseItem oldExpense, ExpenseItem newExpense) {
+    int index = overallExpenseList.indexOf(oldExpense);
+    if (index != -1) {
+      overallExpenseList[index] = newExpense;
+      notifyListeners();
+      db.saveData(overallExpenseList);
+    }
+  }
+
   // Get weekday name from dateTime
   String getWeekdayFromDate(DateTime date) {
     return switch (date.weekday) {
