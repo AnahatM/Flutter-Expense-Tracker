@@ -2,7 +2,10 @@
 
 This is a simple, minimalist cross-platform expense-tracker mobile app made with Flutter and programmed in Dart.
 
-## 💵 About the app
+[![Anahat's Website](https://img.shields.io/badge/Developer_Website-AnahatMudgal.com-navy)](https://AnahatMudgal.com)
+[![App Website Page](https://img.shields.io/badge/App_Webpage-Expense_Tracker-seagreen)](https://AnahatMudgal.com/development/expense-tracker-app)
+
+## 📱About the app
 
 It includes complete create, read, update, and delete functionality for all logged expenses, and cleanly displays the expenses data in an easy-to-read bar weekly overview at the top with a bar graph. The app also saves user data locally on the device using Hive, a lightweight key-value database for Flutter.
 
@@ -11,13 +14,14 @@ It includes complete create, read, update, and delete functionality for all logg
 
 ## 🚀 Features
 
-- Add and Edit Expenses
-- View weekly summary in bar-graph
-- Local data storage
+- 📝 Add and Edit Expenses
+- 📅 View weekly summary in bar-graph
+- 💵 Local data storage
 
-## 📱Screenshot
+## 💻 Screenshot
 
-<img src="./images/ExpenseTrackerMockup.png" alt="Cover Image" width="400px">
+| <img src="./images/ExpenseTrackerMockup.png" alt="Cover Image" width="400px"> |
+| :---------------------------------------------------------------------------: |
 
 ## Flutter Guide
 
