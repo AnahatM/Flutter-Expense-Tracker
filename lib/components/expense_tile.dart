@@ -41,10 +41,18 @@ class ExpenseTile extends StatelessWidget {
           ),
         ],
       ),
-      child: ListTile(
-        title: Text(name),
-        subtitle: Text(formatDateTimeDisplay(date)),
-        trailing: Text("\$$amount"),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 25, right: 25, top: 4, bottom: 4),
+        child: ListTile(
+          title: Text(name),
+          subtitle: Text(formatDateTimeDisplay(date)),
+          trailing: Text(
+            "\$$amount",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+          ),
+          tileColor: Colors.grey[200],
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
       ),
     );
   }
