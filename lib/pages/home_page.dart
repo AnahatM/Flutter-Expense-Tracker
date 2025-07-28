@@ -16,9 +16,11 @@ class _HomePageState extends State<HomePage> {
   // Text controllers for input fields
   final newExpenseNameController = TextEditingController();
   final newExpenseAmountController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
 
   // Function to add a new expense
   void addNewExpense() {
+    selectedDate = DateTime.now(); // Reset to today when opening dialog
     showDialog(
       context: context,
       builder:
@@ -38,12 +40,36 @@ class _HomePageState extends State<HomePage> {
                   decoration: InputDecoration(labelText: 'Amount'),
                   keyboardType: TextInputType.number,
                 ),
+                // Date picker
+                SizedBox(height: 16),
+                Row(
+                  children: [
+                    Text("Date "),
+                    TextButton(
+                      onPressed: () async {
+                        DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: selectedDate,
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2100),
+                        );
+                        if (picked != null) {
+                          setState(() {
+                            selectedDate = picked;
+                          });
+                        }
+                      },
+                      child: Text(
+                        "${selectedDate.year}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.day.toString().padLeft(2, '0')}",
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
             actions: [
               // Save button
               MaterialButton(onPressed: saveNewExpense, child: Text('Save')),
-
               // Cancel button
               MaterialButton(
                 onPressed: cancelNewExpense,
@@ -57,6 +83,7 @@ class _HomePageState extends State<HomePage> {
   void clearInputFields() {
     newExpenseNameController.clear();
     newExpenseAmountController.clear();
+    selectedDate = DateTime.now();
   }
 
   // Function to save the new expense
@@ -64,6 +91,7 @@ class _HomePageState extends State<HomePage> {
     // Read values before clearing
     String name = newExpenseNameController.text;
     String amount = newExpenseAmountController.text;
+    DateTime date = selectedDate;
 
     clearInputFields();
 
@@ -71,7 +99,7 @@ class _HomePageState extends State<HomePage> {
     ExpenseItem newExpense = ExpenseItem(
       name: name,
       amount: amount,
-      dateTime: DateTime.now(),
+      dateTime: date,
     );
     // Add the new expense to the ExpenseData provider
     Provider.of<ExpenseData>(context, listen: false).addNewExpense(newExpense);
