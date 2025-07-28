@@ -3,7 +3,7 @@
 This is a simple, minimalist cross-platform expense-tracker mobile app made with Flutter and programmed in Dart.
 
 [![Anahat's Website](https://img.shields.io/badge/Developer_Website-AnahatMudgal.com-navy)](https://AnahatMudgal.com)
-[![App Website Page](https://img.shields.io/badge/App_Webpage-Expense_Tracker-seagreen)](https://AnahatMudgal.com/development/expense-tracker-app)
+[![App Website Page](https://img.shields.io/badge/App_Webpage-Expense_Tracker-seagreen)](https://AnahatMudgal.com/development/flutter-expense-tracker)
 
 ## 📱About the app
 
