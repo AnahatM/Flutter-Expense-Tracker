@@ -20,6 +20,13 @@ class _HomePageState extends State<HomePage> {
   final newExpenseCentsController = TextEditingController();
   DateTime selectedDate = DateTime.now();
 
+  @override
+  void initState() {
+    super.initState();
+    // Prepare data when the page is initialized
+    Provider.of<ExpenseData>(context, listen: false).prepareData();
+  }
+
   // Function to clear input fields
   void clearInputFields() {
     newExpenseNameController.clear();
