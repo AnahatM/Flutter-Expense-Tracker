@@ -23,7 +23,7 @@ It includes complete create, read, update, and delete functionality for all logg
 | <img src="./images/ExpenseTrackerMockup.png" alt="Cover Image" width="400px"> |
 | :---------------------------------------------------------------------------: |
 
-## Flutter Guide
+## ℹ️ Flutter Guide
 
 A few resources to get you started if this is your first Flutter project:
 
