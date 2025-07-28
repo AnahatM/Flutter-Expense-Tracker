@@ -24,6 +24,29 @@ class BarGraph extends StatelessWidget {
     required this.satAmount,
   });
 
+  Widget getBottomTitles(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Colors.grey,
+      fontWeight: FontWeight.bold,
+      fontSize: 14,
+    );
+
+    String text;
+
+    text = switch (value.toInt()) {
+      0 => 'S',
+      1 => 'M',
+      2 => 'T',
+      3 => 'W',
+      4 => 'T',
+      5 => 'F',
+      6 => 'S',
+      _ => '',
+    };
+
+    return SideTitleWidget(meta: meta, child: Text(text, style: style));
+  }
+
   @override
   Widget build(BuildContext context) {
     // Initialize bar data
@@ -42,12 +65,41 @@ class BarGraph extends StatelessWidget {
       BarChartData(
         maxY: maxY,
         minY: 0,
+        gridData: FlGridData(show: false),
+        borderData: FlBorderData(show: false),
+        titlesData: FlTitlesData(
+          show: true,
+          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          bottomTitles: AxisTitles(
+            sideTitles: SideTitles(
+              showTitles: true,
+              getTitlesWidget: (value, meta) => getBottomTitles(value, meta),
+            ),
+          ),
+        ),
         barGroups:
             myBarData.barData
                 .map(
                   (data) => BarChartGroupData(
                     x: data.x,
-                    barRods: [BarChartRodData(toY: data.y)],
+                    barRods: [
+                      BarChartRodData(
+                        toY: data.y,
+                        color: Colors.grey[800],
+                        width: 25,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(5),
+                          topRight: Radius.circular(5),
+                        ),
+                        backDrawRodData: BackgroundBarChartRodData(
+                          show: true,
+                          toY: maxY ?? 0,
+                          color: Colors.grey[200],
+                        ),
+                      ),
+                    ],
                   ),
                 )
                 .toList(),
